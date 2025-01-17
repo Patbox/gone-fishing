@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "gofish:icicle_fish"
-    }
+    "gofish:icicle_fish"
   ],
   "result": {
     "id": "minecraft:blue_ice"

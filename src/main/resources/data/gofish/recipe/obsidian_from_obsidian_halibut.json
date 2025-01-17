@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "gofish:obsidian_halibut"
-    }
+    "gofish:obsidian_halibut"
   ],
   "result": {
     "id": "minecraft:obsidian"

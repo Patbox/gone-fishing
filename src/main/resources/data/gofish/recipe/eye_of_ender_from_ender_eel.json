@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "gofish:ender_eel"
-    }
+    "gofish:ender_eel"
   ],
   "result": {
     "id": "minecraft:ender_eye"

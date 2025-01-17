@@ -1,15 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "gofish:baked_endfish"
-    },
-    {
-      "item": "minecraft:chorus_fruit"
-    },
-    {
-      "item": "minecraft:chorus_fruit"
-    }
+    "gofish:baked_endfish",
+    "minecraft:chorus_fruit",
+    "minecraft:chorus_fruit"
   ],
   "result": {
     "id": "gofish:endfish_and_chorus"

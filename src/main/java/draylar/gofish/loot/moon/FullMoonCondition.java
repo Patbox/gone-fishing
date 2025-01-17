@@ -8,7 +8,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.condition.LootConditionType;
 import net.minecraft.loot.context.LootContext;
-import net.minecraft.loot.context.LootContextParameter;
 import net.minecraft.loot.context.LootContextParameters;
 
 import java.util.Set;
@@ -21,11 +20,6 @@ public record FullMoonCondition() implements LootCondition {
     @Override
     public LootConditionType getType() {
         return GoFishLoot.FULL_MOON;
-    }
-
-    @Override
-    public Set<LootContextParameter<?>> getRequiredParameters() {
-        return ImmutableSet.of();
     }
 
     @Override

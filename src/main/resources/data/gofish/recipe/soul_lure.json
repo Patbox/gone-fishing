@@ -1,15 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "gofish:soul_salmon"
-    },
-    {
-      "item": "gofish:soul_salmon"
-    },
-    {
-      "item": "gofish:simple_lure"
-    }
+    "gofish:soul_salmon",
+    "gofish:soul_salmon",
+    "gofish:simple_lure"
   ],
   "result": {
     "id": "gofish:soul_lure"

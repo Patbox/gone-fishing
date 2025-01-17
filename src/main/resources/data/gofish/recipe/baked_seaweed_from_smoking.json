@@ -1,8 +1,6 @@
 {
   "type": "minecraft:smoking",
-  "ingredient": {
-    "item": "gofish:seaweed"
-  },
+  "ingredient": "gofish:seaweed",
   "result": { "id": "gofish:baked_seaweed" },
   "experience": 0.25,
   "cookingtime": 50

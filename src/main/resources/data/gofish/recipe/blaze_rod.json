@@ -6,12 +6,8 @@
     "B s"
   ],
   "key": {
-    "B": {
-      "item": "minecraft:blaze_rod"
-    },
-    "s": {
-      "item": "minecraft:string"
-    }
+    "B": "minecraft:blaze_rod",
+    "s": "minecraft:string"
   },
   "result": {
     "id": "gofish:blaze_rod"

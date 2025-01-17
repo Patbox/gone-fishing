@@ -6,12 +6,8 @@
     " d "
   ],
   "key": {
-    "d": {
-      "item": "minecraft:diamond"
-    },
-    "r": {
-      "item": "minecraft:fishing_rod"
-    }
+    "d": "minecraft:diamond",
+    "r": "minecraft:fishing_rod"
   },
   "result": {
     "id": "gofish:diamond_reinforced_rod"

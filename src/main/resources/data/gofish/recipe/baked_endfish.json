@@ -1,8 +1,6 @@
 {
   "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "gofish:endfish"
-  },
+  "ingredient": "gofish:endfish",
   "result": { "id": "gofish:baked_endfish" },
   "experience": 0.7,
   "cookingtime": 200

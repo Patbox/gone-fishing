@@ -1,12 +1,8 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "gofish:rainy_bass"
-    },
-    {
-      "item": "minecraft:bucket"
-    }
+    "gofish:rainy_bass",
+    "minecraft:bucket"
   ],
   "result": {
     "id": "minecraft:water_bucket"

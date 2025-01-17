@@ -1,12 +1,8 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "gofish:blizzard_bass"
-    },
-    {
-      "item": "gofish:blizzard_bass"
-    }
+    "gofish:blizzard_bass",
+    "gofish:blizzard_bass"
   ],
   "result": {
     "id": "minecraft:packed_ice"

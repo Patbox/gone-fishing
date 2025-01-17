@@ -9,9 +9,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.condition.LootConditionType;
 import net.minecraft.loot.context.LootContext;
-import net.minecraft.loot.context.LootContextParameter;
 import net.minecraft.loot.context.LootContextParameters;
-import net.minecraft.util.dynamic.Codecs;
+import net.minecraft.util.context.ContextParameter;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -36,8 +35,9 @@ public record WeatherCondition(Optional<Boolean> raining, Optional<Boolean> thun
         return GoFishLoot.WEATHER;
     }
 
+
     @Override
-    public Set<LootContextParameter<?>> getRequiredParameters() {
+    public Set<ContextParameter<?>> getAllowedParameters() {
         return ImmutableSet.of(LootContextParameters.THIS_ENTITY, LootContextParameters.ORIGIN);
     }
 
@@ -62,7 +62,7 @@ public record WeatherCondition(Optional<Boolean> raining, Optional<Boolean> thun
             // same check for snowing
             if (snowing.isPresent() && snowing.get()) {
                 // >= .15 = no snow
-                if(world.getBiome(entity.getBlockPos()).value().doesNotSnow(new BlockPos((int) Math.floor(pos.x), (int) Math.floor(pos.y), (int) Math.floor(pos.z)))) {
+                if(world.getBiome(entity.getBlockPos()).value().doesNotSnow(new BlockPos((int) Math.floor(pos.x), (int) Math.floor(pos.y), (int) Math.floor(pos.z)), world.getSeaLevel())) {
                     return false;
                 }
 

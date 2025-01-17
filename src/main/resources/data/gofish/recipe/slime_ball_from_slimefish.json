@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "gofish:slimefish"
-    }
+    "gofish:slimefish"
   ],
   "result": {
     "id": "minecraft:slime_ball"

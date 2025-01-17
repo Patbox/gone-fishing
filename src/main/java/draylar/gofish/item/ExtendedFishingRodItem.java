@@ -17,9 +17,9 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
@@ -54,7 +54,7 @@ public class ExtendedFishingRodItem extends FishingRodItem {
     }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+    public ActionResult use(World world, PlayerEntity user, Hand hand) {
         ItemStack heldStack = user.getStackInHand(hand);
         Random random = world.random;
 
@@ -121,7 +121,7 @@ public class ExtendedFishingRodItem extends FishingRodItem {
             user.incrementStat(Stats.USED.getOrCreateStat(this));
         }
 
-        return TypedActionResult.success(heldStack, world.isClient());
+        return ActionResult.SUCCESS_SERVER;
     }
 
     @Override
@@ -153,11 +153,6 @@ public class ExtendedFishingRodItem extends FishingRodItem {
         return autosmelt;
     }
 
-    @Override
-    public int getEnchantability() {
-        return 1;
-    }
-
     public boolean canFishInLava() {
         return lavaProof;
     }
@@ -176,8 +171,8 @@ public class ExtendedFishingRodItem extends FishingRodItem {
         private Formatting formatting = Formatting.WHITE;
         private int tooltipLines = 0;
 
-        public Builder() {
-
+        public Builder(Item.Settings settings) {
+            this.settings = settings;
         }
 
         public Builder withSettings(Item.Settings settings) {

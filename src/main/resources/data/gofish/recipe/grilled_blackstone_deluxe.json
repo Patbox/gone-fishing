@@ -5,15 +5,9 @@
     "sds"
   ],
   "key": {
-    "d": {
-      "item": "gofish:grilled_blackstone_trout"
-    },
-    "s": {
-      "item": "minecraft:baked_potato"
-    },
-    "g": {
-      "item": "gofish:baked_seaweed"
-    }
+    "d": "gofish:grilled_blackstone_trout",
+    "s": "minecraft:baked_potato",
+    "g": "gofish:baked_seaweed"
   },
   "result": {
     "id": "gofish:grilled_blackstone_deluxe"

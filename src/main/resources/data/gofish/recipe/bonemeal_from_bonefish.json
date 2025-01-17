@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "gofish:bonefish"
-    }
+    "gofish:bonefish"
   ],
   "result": {
     "id": "minecraft:bone",

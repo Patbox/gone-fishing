@@ -1,8 +1,6 @@
 {
   "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "gofish:carrot_carp"
-  },
+  "ingredient": "gofish:carrot_carp",
   "result": {
     "id": "gofish:baked_carrot_carp"
   },

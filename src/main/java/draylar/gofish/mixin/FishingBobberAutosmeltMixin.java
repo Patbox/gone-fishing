@@ -10,6 +10,7 @@ import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.SmeltingRecipe;
 import net.minecraft.recipe.input.SingleStackRecipeInput;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -48,14 +49,17 @@ public abstract class FishingBobberAutosmeltMixin extends Entity implements Smel
             index = 9
     )
     private ItemEntity processOutput(ItemEntity itemEntity) {
-        if(gf_smelts) {
-            Optional<RecipeEntry<SmeltingRecipe>> cooked = getWorld().getRecipeManager().getFirstMatch(
-                    RecipeType.SMELTING,
-                    new SingleStackRecipeInput(itemEntity.getStack()),
-                    getWorld()
-            );
+        if (this.getWorld() instanceof ServerWorld world) {
+            if (gf_smelts) {
+                Optional<RecipeEntry<SmeltingRecipe>> cooked = world.getRecipeManager().getFirstMatch(
+                        RecipeType.SMELTING,
+                        new SingleStackRecipeInput(itemEntity.getStack()),
+                        getWorld()
+                );
 
-            cooked.ifPresent(smeltingRecipe -> itemEntity.setStack(smeltingRecipe.value().getResult(getWorld().getRegistryManager())));
+                cooked.ifPresent(smeltingRecipe -> itemEntity.setStack(smeltingRecipe.value().craft(
+                        new SingleStackRecipeInput(itemEntity.getStack()), getWorld().getRegistryManager())));
+            }
         }
 
         return itemEntity;

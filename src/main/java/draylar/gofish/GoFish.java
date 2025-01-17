@@ -1,11 +1,13 @@
 package draylar.gofish;
 
+import com.google.common.hash.HashCode;
 import draylar.gofish.command.FishCommand;
 import draylar.gofish.registry.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
-import net.fabricmc.fabric.api.registry.FuelRegistry;
+import net.fabricmc.fabric.api.registry.FuelRegistryEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potions;
@@ -16,8 +18,15 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 
 public class GoFish implements ModInitializer {
 
@@ -41,11 +50,16 @@ public class GoFish implements ModInitializer {
 
         FishCommand.register();
 
-        FuelRegistry.INSTANCE.add(GoFishItems.OAKFISH, 300); // same time as coal
-        FuelRegistry.INSTANCE.add(GoFishItems.CHARFISH, 1600); // same time as coal
-
+        FuelRegistryEvents.BUILD.register((builder, context) -> {
+            builder.add(GoFishItems.OAKFISH, 3 * context.baseSmeltTime() / 2);
+            builder.add(GoFishItems.CHARFISH, 8 * context.baseSmeltTime());
+        });
 
         FabricBrewingRecipeRegistryBuilder.BUILD.register(this::registerBrewingRecipes);
+
+        if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+            //PatboxLazyModelGen.run();
+        }
     }
 
     public static Identifier id(String name) {
@@ -58,4 +72,5 @@ public class GoFish implements ModInitializer {
         builder.registerPotionRecipe(Potions.AWKWARD, GoFishItems.RAINY_BASS, Potions.WATER_BREATHING);
         builder.registerPotionRecipe(Potions.AWKWARD, GoFishItems.MAGMA_COD, Potions.FIRE_RESISTANCE);
     }
+
 }

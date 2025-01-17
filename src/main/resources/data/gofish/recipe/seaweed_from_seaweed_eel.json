@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "gofish:seaweed_eel"
-    }
+    "gofish:seaweed_eel"
   ],
   "result": {
     "id": "gofish:seaweed",

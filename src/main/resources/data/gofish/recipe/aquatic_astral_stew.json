@@ -1,21 +1,11 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "gofish:lunarfish"
-    },
-    {
-      "item": "gofish:galaxy_starfish"
-    },
-    {
-      "item": "gofish:starry_salmon"
-    },
-    {
-      "item": "gofish:nebula_swordfish"
-    },
-    {
-      "item": "minecraft:bowl"
-    }
+    "gofish:lunarfish",
+    "gofish:galaxy_starfish",
+    "gofish:starry_salmon",
+    "gofish:nebula_swordfish",
+    "minecraft:bowl"
   ],
   "result": {
     "id": "gofish:aquatic_astral_stew"

@@ -9,9 +9,9 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.LootTables;
-import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
+import net.minecraft.loot.context.LootWorldContext;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -47,7 +47,7 @@ public class FishCommand {
         ServerPlayerEntity player = context.getSource().getPlayer();
         ServerWorld world = context.getSource().getWorld();
 
-        LootContextParameterSet lootContext = new LootContextParameterSet.Builder(serverCommandSource.getWorld())
+        var lootContext = new LootWorldContext.Builder(serverCommandSource.getWorld())
                 .add(LootContextParameters.ORIGIN, player.getPos())
                 .add(LootContextParameters.TOOL, player.getStackInHand(player.getActiveHand()))
                 .addOptional(LootContextParameters.THIS_ENTITY, serverCommandSource.getEntity())

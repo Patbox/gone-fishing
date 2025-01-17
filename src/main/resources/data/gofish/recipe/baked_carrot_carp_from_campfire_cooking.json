@@ -1,8 +1,6 @@
 {
   "type": "minecraft:campfire_cooking",
-  "ingredient": {
-    "item": "gofish:carrot_carp"
-  },
+  "ingredient": "gofish:carrot_carp",
   "result": { "id": "gofish:baked_carrot_carp" },
   "experience": 0.7,
   "cookingtime": 600

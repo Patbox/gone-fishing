@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "gofish:magma_cod"
-    }
+    "gofish:magma_cod"
   ],
   "result": {
     "id": "minecraft:magma_block"

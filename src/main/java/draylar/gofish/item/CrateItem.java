@@ -8,9 +8,9 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.LootTables;
-import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
+import net.minecraft.loot.context.LootWorldContext;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
@@ -49,7 +49,7 @@ public class CrateItem extends BlockItem {
     }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+    public ActionResult use(World world, PlayerEntity user, Hand hand) {
         // only open crate if user is sneaking
         if(user.isSneaking()) {
             if(!world.isClient) {
@@ -64,7 +64,7 @@ public class CrateItem extends BlockItem {
                 user.getStackInHand(hand).decrement(1);
             }
 
-            return TypedActionResult.success(user.getStackInHand(hand));
+            return ActionResult.SUCCESS_SERVER;
         }
 
         return super.use(world, user, hand);
@@ -82,8 +82,8 @@ public class CrateItem extends BlockItem {
         if (world != null && !world.isClient) {
             // set up loot objects
             LootTable supplier = Objects.requireNonNull(world.getServer()).getReloadableRegistries().getLootTable(identifier);
-            LootContextParameterSet.Builder builder =
-                    new LootContextParameterSet.Builder(world)
+            LootWorldContext.Builder builder =
+                    new LootWorldContext.Builder(world)
                             .add(LootContextParameters.ORIGIN, pos);
 
             // build & add loot to output
