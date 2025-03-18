@@ -114,7 +114,7 @@
                 "min": 15,
                 "max": 25
               },
-              "treasure": true
+              "options": "#gofish:on_fishing_loot"
             }
           ]
         },
@@ -124,10 +124,10 @@
           "name": "minecraft:book",
           "functions": [
             {
-              "function": "enchant_randomly",
-              "enchantments": [
-                "frost_walker"
-              ]
+              "function": "set_enchantments",
+              "enchantments": {
+                "minecraft:frost_walker": 1
+              }
             }
           ]
         }

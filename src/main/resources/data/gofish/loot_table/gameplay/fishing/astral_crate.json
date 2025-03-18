@@ -103,7 +103,7 @@
                 "min": 29,
                 "max": 30
               },
-              "treasure": true
+              "options": "#gofish:on_fishing_loot"
             }
           ]
         }
@@ -183,7 +183,8 @@
               "levels": {
                 "min": 1,
                 "max": 15
-              }
+              },
+              "options": "#gofish:on_fishing_loot"
             }
           ]
         },
@@ -197,7 +198,8 @@
               "levels": {
                 "min": 20,
                 "max": 30
-              }
+              },
+              "options": "#gofish:on_fishing_loot"
             }
           ]
         }

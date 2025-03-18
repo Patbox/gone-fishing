@@ -219,7 +219,8 @@
               "levels": {
                 "min": 15,
                 "max": 25
-              }
+              },
+              "options": "#gofish:on_fishing_loot"
             }
           ]
         },

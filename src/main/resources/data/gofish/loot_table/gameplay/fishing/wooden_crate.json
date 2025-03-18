@@ -276,7 +276,7 @@
             {
               "function": "enchant_with_levels",
               "levels": 10,
-              "treasure": true
+              "options": "#gofish:on_fishing_loot"
             }
           ]
         },

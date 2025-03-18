@@ -488,7 +488,7 @@
                 "min": 10,
                 "max": 15
               },
-              "treasure": true
+              "options": "#gofish:on_fishing_loot"
             }
           ]
         },
