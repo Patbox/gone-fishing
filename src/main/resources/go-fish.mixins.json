@@ -15,8 +15,7 @@
     "ItemEntityFireproofMixin"
   ],
   "client": [
-    "client.ParticleManagerMixin",
-    "client.FishingBobberEntityRendererMixin"
+    "client.ParticleManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -102,7 +102,8 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
     }
 
     @ModifyArg(method = "tickFishingLogic", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;spawnParticles(Lnet/minecraft/particle/ParticleEffect;DDDIDDDD)I"))
-    private ParticleEffect replaceLavaParticle(ParticleEffect particle, @Local BlockState state) {
+    private ParticleEffect replaceLavaParticle(ParticleEffect particle, @Local ServerWorld world, @Local(argsOnly = true) BlockPos pos) {
+        BlockState state = world.getBlockState(pos);
         if (state.getFluidState().isIn(FluidTags.LAVA)) {
             if (particle == ParticleTypes.FISHING) {
                 return GoFishParticles.LAVA_FISHING;
