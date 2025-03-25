@@ -170,6 +170,21 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
     }
 
     @WrapOperation(
+        method = "tickFishingLogic",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/World;isSkyVisible(Lnet/minecraft/util/math/BlockPos;)Z"
+        )
+    )
+    public boolean isSkyVisible(World instance, BlockPos pos, Operation<Boolean> original) {
+        // The sky is never visible, dont punish players for not fishing in a sky visible spot
+        if (!instance.getDimension().hasSkyLight()) {
+            return true;
+        }
+        return original.call(instance, pos);
+    }
+
+    @WrapOperation(
             method = "getPositionType(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/entity/projectile/FishingBobberEntity$PositionType;",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/fluid/FluidState;isIn(Lnet/minecraft/registry/tag/TagKey;)Z")
     )
