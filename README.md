@@ -4,7 +4,8 @@ Go Fish is a fishing enhancement mod for Fabric. It takes inspiration from Stard
 
 <img src="https://raw.githubusercontent.com/Draylar/go-fish/master/images/lava_fishing.png" alt="Go Fish banner" width="900">
 
-### Feature Overview
+## Feature Overview
+
 ---
 
 🐟 New fun Fish variants - find themed aquatic creatures in all biomes while fishing! 🦈
