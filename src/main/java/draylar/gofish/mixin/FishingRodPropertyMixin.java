@@ -59,7 +59,7 @@ public class FishingRodPropertyMixin {
 
         // Find buffing items in player inventory
         List<FishingBonus> found = new ArrayList<>();
-        for (ItemStack stack : player.getInventory().main) {
+        for (ItemStack stack : player.getInventory().getMainStacks()) {
             Item item = stack.getItem();
 
             if (item instanceof FishingBonus bonus) {

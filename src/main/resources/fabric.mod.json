@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "go-fish",
   "version": "${version}",
-  "name": "Go Fish",
-  "description": "Go fish!",
+  "name": "Gone Fishing",
+  "description": "Updated fork of Go Fish!",
   "authors": [
     "Draylar"
   ],
@@ -21,15 +21,12 @@
     "unilock",
     "YuRaNnNzZZ"
   ],
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/gofish/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
       "draylar.gofish.GoFish"
-    ],
-    "client": [
-      "draylar.gofish.GoFishClient"
     ]
   },
   "accessWidener": "gofish.accesswidener",
@@ -38,7 +35,8 @@
   ],
   "depends": {
     "fabricloader": "*",
-    "minecraft": ">=1.21",
+    "minecraft": ">=1.21.5",
+    "polymer-core": "*",
     "fabric-api": "*"
   }
 }

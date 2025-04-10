@@ -6,6 +6,7 @@ import draylar.gofish.item.ExtendedFishingRodItem;
 import draylar.gofish.item.LureItem;
 import draylar.gofish.item.SoulLureItem;
 import draylar.gofish.item.TooltippedItem;
+import eu.pb4.polymer.core.api.item.SimplePolymerItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.type.ConsumableComponents;
 import net.minecraft.component.type.FoodComponent;
@@ -151,7 +152,7 @@ public class GoFishItems {
     }
 
     public static Item register(String name, Item.Settings settings) {
-        return register(name, settings, Item::new);
+        return register(name, settings, SimplePolymerItem::new);
     }
 
     public static Item register(String name, Item.Settings settings, int lines) {

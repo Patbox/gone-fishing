@@ -1,8 +1,8 @@
 package draylar.gofish.registry;
 
 import draylar.gofish.GoFish;
-import draylar.gofish.block.AstralCrateBlock;
 import draylar.gofish.block.CrateBlock;
+import draylar.gofish.block.WoodenCrateBlock;
 import draylar.gofish.item.CrateItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
@@ -28,7 +28,7 @@ public class GoFishBlocks {
     //   Special: enchanting bottle, low-level enchanted book, emerald, bucket / bucket with fish, more materials
     //   Weapons: damaged crossbows, arrows, bows, stone tools
     //   Fish: all types of vanilla fish
-    public static Block WOODEN_CRATE = registerCrate("wooden_crate", Block.Settings.copy(Blocks.OAK_WOOD), CrateBlock::new, new Item.Settings().maxCount(8), GoFish.id("gameplay/fishing/wooden_crate"));
+    public static Block WOODEN_CRATE = registerCrate("wooden_crate", Block.Settings.copy(Blocks.OAK_WOOD), WoodenCrateBlock::new, new Item.Settings().maxCount(8), GoFish.id("gameplay/fishing/wooden_crate"));
 
     // The Iron Crate provides less junk, a chance for iron tools, and better rare loot.
     //   Junk: Oak Planks, sticks, Oak Logs, String, Seaweed, Kelp, Bones
@@ -53,8 +53,8 @@ public class GoFishBlocks {
     public static Block ASTRAL_CRATE = registerCrate("astral_crate", Block.Settings.copy(Blocks.END_STONE).nonOpaque(), CrateBlock::new, new Item.Settings().fireproof().maxCount(8).rarity(Rarity.EPIC), GoFish.id("gameplay/fishing/astral_crate"));
     public static Block END_CRATE = registerCrate("end_crate", Block.Settings.copy(Blocks.END_STONE), CrateBlock::new, new Item.Settings().fireproof().maxCount(8).rarity(Rarity.EPIC), GoFish.id("gameplay/fishing/end_crate"));
 
-    public static <T extends Block> T registerCrate(String name, AbstractBlock.Settings blockSettings, Function<AbstractBlock.Settings, T> blockFunc, Item.Settings settings, Identifier id) {
-        var block = blockFunc.apply(blockSettings.registryKey(RegistryKey.of(RegistryKeys.BLOCK, GoFish.id(name))));
+    public static <T extends CrateBlock> T registerCrate(String name, AbstractBlock.Settings blockSettings, Function<AbstractBlock.Settings, T> blockFunc, Item.Settings settings, Identifier id) {
+        var block = blockFunc.apply(blockSettings.registryKey(RegistryKey.of(RegistryKeys.BLOCK, GoFish.id(name))).nonOpaque());
         T registeredBlock = Registry.register(Registries.BLOCK, GoFish.id(name), block);
         Registry.register(Registries.ITEM, GoFish.id(name), new CrateItem(block, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, GoFish.id(name))).useBlockPrefixedTranslationKey(), id));
         ItemGroupEvents.modifyEntriesEvent(GoFish.ITEM_GROUP).register(entries -> entries.add(registeredBlock));

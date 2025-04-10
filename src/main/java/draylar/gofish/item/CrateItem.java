@@ -1,6 +1,9 @@
 package draylar.gofish.item;
 
+import eu.pb4.factorytools.api.item.FactoryBlockItem;
+import eu.pb4.polymer.core.api.block.PolymerBlock;
 import net.minecraft.block.Block;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
@@ -22,17 +25,18 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 
-public class CrateItem extends BlockItem {
+public class CrateItem extends FactoryBlockItem {
 
     private final RegistryKey<LootTable> loot;
 
-    public CrateItem(Block block, Settings settings) {
+    public <T extends Block & PolymerBlock> CrateItem(T block, Settings settings) {
         super(block, settings);
         loot = LootTables.PILLAGER_OUTPOST_CHEST;
     }
 
-    public CrateItem(Block block, Settings settings, Identifier loot) {
+    public <T extends Block & PolymerBlock> CrateItem(T block, Settings settings, Identifier loot) {
         super(block, settings);
         this.loot = RegistryKey.of(RegistryKeys.LOOT_TABLE, loot);
     }
@@ -95,8 +99,8 @@ public class CrateItem extends BlockItem {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        super.appendTooltip(stack, context, tooltip, type);
-        tooltip.add(Text.translatable("gofish.crate_tooltip").formatted(Formatting.GRAY).formatted(Formatting.ITALIC));
+    public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+        super.appendTooltip(stack, context, displayComponent, textConsumer, type);
+        textConsumer.accept(Text.translatable("gofish.crate_tooltip").formatted(Formatting.GRAY).formatted(Formatting.ITALIC));
     }
 }

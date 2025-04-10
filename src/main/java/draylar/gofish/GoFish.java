@@ -3,6 +3,7 @@ package draylar.gofish;
 import com.google.common.hash.HashCode;
 import draylar.gofish.command.FishCommand;
 import draylar.gofish.registry.*;
+import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
@@ -45,7 +46,6 @@ public class GoFish implements ModInitializer {
         GoFishEnchantments.init();
         GoFishLoot.init();
         GoFishLootHandler.init();
-        GoFishParticles.init();
         GoFishEntities.init();
 
         FishCommand.register();
@@ -56,6 +56,8 @@ public class GoFish implements ModInitializer {
         });
 
         FabricBrewingRecipeRegistryBuilder.BUILD.register(this::registerBrewingRecipes);
+
+        PolymerResourcePackUtils.addModAssets("go-fish");
 
         if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
             //PatboxLazyModelGen.run();

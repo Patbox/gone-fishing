@@ -3,6 +3,8 @@ package draylar.gofish.item;
 import draylar.gofish.api.*;
 import draylar.gofish.registry.GoFishEnchantments;
 
+import eu.pb4.polymer.core.api.item.PolymerItem;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,6 +12,7 @@ import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -22,11 +25,13 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import xyz.nucleoid.packettweaker.PacketContext;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
-public class ExtendedFishingRodItem extends FishingRodItem {
+public class ExtendedFishingRodItem extends FishingRodItem implements PolymerItem {
 
     private final SoundInstance retrieve;
     private final SoundInstance cast;
@@ -83,7 +88,7 @@ public class ExtendedFishingRodItem extends FishingRodItem {
 
                 // Find buffing items in player inventory
                 List<FishingBonus> found = new ArrayList<>();
-                for (ItemStack stack : user.getInventory().main) {
+                for (ItemStack stack : user.getInventory().getMainStacks()) {
                     Item item = stack.getItem();
 
                     if(item instanceof FishingBonus) {
@@ -135,12 +140,12 @@ public class ExtendedFishingRodItem extends FishingRodItem {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        super.appendTooltip(stack, context, tooltip, type);
+    public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+        super.appendTooltip(stack, context, displayComponent, textConsumer, type);
 
         if(lines > 0) {
             for (int i = 1; i <= lines; i++) {
-                tooltip.add(Text.translatable(String.format("%s.tooltip_%d", getTranslationKey(), i)).formatted(Formatting.GRAY));
+                textConsumer.accept(Text.translatable(String.format("%s.tooltip_%d", getTranslationKey(), i)).formatted(Formatting.GRAY));
             }
         }
     }
@@ -155,6 +160,11 @@ public class ExtendedFishingRodItem extends FishingRodItem {
 
     public boolean canFishInLava() {
         return lavaProof;
+    }
+
+    @Override
+    public Item getPolymerItem(ItemStack itemStack, PacketContext packetContext) {
+        return Items.FISHING_ROD;
     }
 
     public static class Builder {
