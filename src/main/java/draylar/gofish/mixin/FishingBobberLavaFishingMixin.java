@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import draylar.gofish.GoFish;
 import draylar.gofish.item.ExtendedFishingRodItem;
 import eu.pb4.polymer.virtualentity.api.ElementHolder;
+import eu.pb4.polymer.virtualentity.api.VirtualEntityUtils;
 import eu.pb4.polymer.virtualentity.api.attachment.EntityAttachment;
 import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
 import net.minecraft.block.Block;
@@ -22,20 +23,26 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.function.Consumer;
 
 @Mixin(FishingBobberEntity.class)
 public abstract class FishingBobberLavaFishingMixin extends Entity {
@@ -49,13 +56,13 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
         super(type, world);
     }
 
-    private ElementHolder holder;
-    private EntityAttachment attachment;
-    private ItemDisplayElement bobber;
+    private ElementHolder holder = null;
+    @Nullable
+    private ItemDisplayElement bobber = null;
 
     @Override
     public boolean updateMovementInFluid(TagKey<Fluid> tag, double speed) {
-        if (tag == FluidTags.LAVA) {
+        if (tag == FluidTags.LAVA && !this.getWorld().isClient) {
             return super.updateMovementInFluid(tag, 0.014 * 2);
         }
         return super.updateMovementInFluid(tag, speed);
@@ -66,14 +73,19 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
         at = @At("RETURN")
     )
     public void onInit(EntityType<? extends FishingBobberEntity> type, World world, int luckBonus, int waitTimeReductionTicks, CallbackInfo ci) {
+        if (world.isClient) {
+            return;
+        }
+
         this.holder = new ElementHolder();
-        var stack = Items.TROPICAL_FISH.getDefaultStack();
-        stack.set(DataComponentTypes.ITEM_MODEL, GoFish.id("fishing_hook"));
-        this.bobber = new ItemDisplayElement(stack);
-        this.bobber.setBillboardMode(DisplayEntity.BillboardMode.CENTER);
-        this.bobber.setScale(new Vector3f(0.5f));
-        this.holder.addElement(bobber);
-        this.attachment = new EntityAttachment(this.holder, this, true);
+        this.bobber = new ItemDisplayElement() {
+            @Override
+            public void startWatching(ServerPlayerEntity player, Consumer<Packet<ClientPlayPacketListener>> packetConsumer) {
+                super.startWatching(player, packetConsumer);
+                packetConsumer.accept(VirtualEntityUtils.createRidePacket(getId(), this.getEntityIds()));
+            }
+        };
+        new EntityAttachment(this.holder, this, true);
     }
 
     @Inject(
@@ -84,20 +96,21 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
         )
     )
     public void onTick(CallbackInfo ci, @Local FluidState fluidState) {
+        if (this.getWorld().isClient) {
+            return;
+        }
         if (fluidState.isIn(FluidTags.LAVA)) {
             if (this.state == FishingBobberEntity.State.BOBBING) {
-                if (this.bobber.getHolder() == null) {
+                if (this.bobber != null && this.bobber.getHolder() == null) {
                     this.holder.addElement(bobber);
                 }
             }
-        }
-        if (this.state != FishingBobberEntity.State.BOBBING) {
-            if (this.bobber.getHolder() != null) {
-                this.holder.removeElement(bobber);
-            }
+            return;
         }
 
-        this.bobber.setOnFire(this.isOnFire());
+        if (this.bobber != null) {
+            this.holder.removeElement(bobber);
+        }
     }
 
     // this mixin is used to determine whether a bobber is actually bobbing for fish
@@ -107,6 +120,10 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
             index = 2
     )
     private float bobberInLava(float value) {
+        if (this.getWorld().isClient) {
+            return value;
+        }
+
         BlockPos blockPos = this.getBlockPos();
         FluidState fluidState = this.getWorld().getFluidState(blockPos);
 
@@ -152,12 +169,12 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/fluid/FluidState;isIn(Lnet/minecraft/registry/tag/TagKey;)Z", ordinal = 1)
     )
     private boolean fallOutsideLiquid(FluidState instance, TagKey<Fluid> tag, Operation<Boolean> original) {
-        return original.call(instance, tag) || instance.isIn(FluidTags.LAVA);
+        return original.call(instance, tag) || (!this.getWorld().isClient && instance.isIn(FluidTags.LAVA));
     }
 
     @WrapOperation(method = "tickFishingLogic", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z"))
     private boolean replaceLava(BlockState instance, Block block, Operation<Boolean> original) {
-        return original.call(instance, block) || instance.isOf(Blocks.LAVA);
+        return original.call(instance, block) || (!this.getWorld().isClient && instance.isOf(Blocks.LAVA));
     }
 
     @ModifyArg(method = "tickFishingLogic", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;spawnParticles(Lnet/minecraft/particle/ParticleEffect;DDDIDDDD)I"))
