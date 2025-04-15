@@ -9,6 +9,7 @@ import eu.pb4.polymer.virtualentity.api.ElementHolder;
 import eu.pb4.polymer.virtualentity.api.VirtualEntityUtils;
 import eu.pb4.polymer.virtualentity.api.attachment.EntityAttachment;
 import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -82,7 +83,7 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
             @Override
             public void startWatching(ServerPlayerEntity player, Consumer<Packet<ClientPlayPacketListener>> packetConsumer) {
                 super.startWatching(player, packetConsumer);
-                packetConsumer.accept(VirtualEntityUtils.createRidePacket(getId(), this.getEntityIds()));
+                packetConsumer.accept(VirtualEntityUtils.createRidePacket(this.getEntityId(), IntList.of(getId())));
             }
         };
         new EntityAttachment(this.holder, this, true);
