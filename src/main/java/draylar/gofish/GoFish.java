@@ -3,6 +3,7 @@ package draylar.gofish;
 import com.google.common.hash.HashCode;
 import draylar.gofish.command.FishCommand;
 import draylar.gofish.registry.*;
+import eu.pb4.polymer.core.api.item.PolymerItemGroupUtils;
 import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -36,9 +37,10 @@ public class GoFish implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        Registry.register(Registries.ITEM_GROUP, ITEM_GROUP, FabricItemGroup.builder()
+        PolymerItemGroupUtils.registerPolymerItemGroup(ITEM_GROUP, PolymerItemGroupUtils.builder()
                 .icon(() -> new ItemStack(GoFishItems.GOLDEN_FISH))
                 .displayName(Text.translatable("itemGroup.gofish.group"))
+                .entries((a, b) -> GoFishItems.ITEMS.forEach(b::add))
                 .build());
 
         GoFishBlocks.init();

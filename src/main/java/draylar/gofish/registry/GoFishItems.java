@@ -23,9 +23,12 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Rarity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 public class GoFishItems {
+    public static final List<Item> ITEMS = new ArrayList<>();
 
     public static final Item BLAZE_ROD = register("blaze_rod", (settings) -> new ExtendedFishingRodItem.Builder(settings)
             .durability(125)
@@ -162,7 +165,7 @@ public class GoFishItems {
     public static <T extends Item> T register(String name, Item.Settings settings, Function<Item.Settings, T> function) {
         var item = function.apply(settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, GoFish.id(name))));
         Registry.register(Registries.ITEM, GoFish.id(name), item);
-        ItemGroupEvents.modifyEntriesEvent(GoFish.ITEM_GROUP).register(entries -> entries.add(item));
+        ITEMS.add(item);
         return item;
     }
 

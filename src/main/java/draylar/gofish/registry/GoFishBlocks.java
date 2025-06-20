@@ -56,8 +56,8 @@ public class GoFishBlocks {
     public static <T extends CrateBlock> T registerCrate(String name, AbstractBlock.Settings blockSettings, Function<AbstractBlock.Settings, T> blockFunc, Item.Settings settings, Identifier id) {
         var block = blockFunc.apply(blockSettings.registryKey(RegistryKey.of(RegistryKeys.BLOCK, GoFish.id(name))).nonOpaque());
         T registeredBlock = Registry.register(Registries.BLOCK, GoFish.id(name), block);
-        Registry.register(Registries.ITEM, GoFish.id(name), new CrateItem(block, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, GoFish.id(name))).useBlockPrefixedTranslationKey(), id));
-        ItemGroupEvents.modifyEntriesEvent(GoFish.ITEM_GROUP).register(entries -> entries.add(registeredBlock));
+        var item = Registry.register(Registries.ITEM, GoFish.id(name), new CrateItem(block, settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, GoFish.id(name))).useBlockPrefixedTranslationKey(), id));
+        GoFishItems.ITEMS.add(item);
         return registeredBlock;
     }
 
