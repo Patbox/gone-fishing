@@ -35,9 +35,9 @@ public abstract class FishingBobberLootMixin extends Entity {
             method = "use",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/registry/ReloadableRegistries$Lookup;getLootTable(Lnet/minecraft/registry/RegistryKey;)Lnet/minecraft/loot/LootTable;"))
     private RegistryKey<LootTable> getTable(RegistryKey<LootTable> key) {
-        assert getWorld().getServer() != null;
+        assert getEntityWorld().getServer() != null;
 
-        final DimensionType dimension = getWorld().getDimension();
+        final DimensionType dimension = getEntityWorld().getDimension();
         if(dimension.ultrawarm()) {
             return GoFishLootTables.NETHER_FISHING;
         } else if (!dimension.bedWorks()) {
@@ -54,7 +54,7 @@ public abstract class FishingBobberLootMixin extends Entity {
             locals = LocalCapture.CAPTURE_FAILHARD)
     private void setFireproof(ItemStack usedItem, CallbackInfoReturnable<Integer> cir, PlayerEntity playerEntity, int i, LootWorldContext lootWorldContext, LootTable lootTable, List list, Iterator var7, ItemStack itemStack, ItemEntity itemEntity, double d, double e, double f, double g) {
         // If the user is fishing in the nether, tell the dropped loot to ignore lava/fire burning until pickup
-        if(getWorld().getDimension().ultrawarm()) {
+        if(getEntityWorld().getDimension().ultrawarm()) {
             ((FireproofEntity) itemEntity).gf_setFireproof(true);
         }
     }

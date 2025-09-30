@@ -27,8 +27,8 @@ public record FullMoonCondition() implements LootCondition {
         Entity entity = lootContext.get(LootContextParameters.THIS_ENTITY);
 
         if(entity != null) {
-            return entity.getWorld().isNight() &&
-                    entity.getWorld().getDimension().getMoonPhase(entity.getWorld().getLunarTime()) == 0;
+            return entity.getEntityWorld().isNight() &&
+                    entity.getEntityWorld().getDimension().getMoonPhase(entity.getEntityWorld().getLunarTime()) == 0;
         }
 
         return false;

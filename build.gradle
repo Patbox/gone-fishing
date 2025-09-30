@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.10.+'
+    id 'fabric-loom' version '1.11.+'
     id 'maven-publish'
     id "com.modrinth.minotaur" version "2.+"
 }
@@ -38,7 +38,7 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation include('eu.pb4:factorytools:0.7.0+1.21.6')
+    modImplementation include('eu.pb4:factorytools:0.8.0+1.21.9')
     modImplementation "eu.pb4:polymer-resource-pack:${project.polymer_version}"
     modImplementation "eu.pb4:polymer-resource-pack-extras:${project.polymer_version}"
     modImplementation "eu.pb4:polymer-core:${project.polymer_version}"

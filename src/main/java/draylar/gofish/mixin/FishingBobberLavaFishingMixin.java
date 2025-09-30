@@ -63,7 +63,7 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
 
     @Override
     public boolean updateMovementInFluid(TagKey<Fluid> tag, double speed) {
-        if (tag == FluidTags.LAVA && !this.getWorld().isClient) {
+        if (tag == FluidTags.LAVA && !this.getEntityWorld().isClient()) {
             return super.updateMovementInFluid(tag, 0.014 * 2);
         }
         return super.updateMovementInFluid(tag, speed);
@@ -74,7 +74,7 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
         at = @At("RETURN")
     )
     public void onInit(EntityType<? extends FishingBobberEntity> type, World world, int luckBonus, int waitTimeReductionTicks, CallbackInfo ci) {
-        if (world.isClient) {
+        if (world.isClient()) {
             return;
         }
 
@@ -97,7 +97,7 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
         )
     )
     public void onTick(CallbackInfo ci, @Local FluidState fluidState) {
-        if (this.getWorld().isClient) {
+        if (this.getEntityWorld().isClient()) {
             return;
         }
         if (fluidState.isIn(FluidTags.LAVA)) {
@@ -121,12 +121,12 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
             index = 2
     )
     private float bobberInLava(float value) {
-        if (this.getWorld().isClient) {
+        if (this.getEntityWorld().isClient()) {
             return value;
         }
 
         BlockPos blockPos = this.getBlockPos();
-        FluidState fluidState = this.getWorld().getFluidState(blockPos);
+        FluidState fluidState = this.getEntityWorld().getFluidState(blockPos);
 
         if (!fluidState.isIn(FluidTags.LAVA)) {
             return value;
@@ -141,13 +141,13 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
             ExtendedFishingRodItem usedRod = (ExtendedFishingRodItem) mainHandItem;
 
             if (usedRod.canFishInLava()) {
-                return fluidState.getHeight(this.getWorld(), blockPos);
+                return fluidState.getHeight(this.getEntityWorld(), blockPos);
             }
         } else if (offHandItem instanceof ExtendedFishingRodItem) {
             ExtendedFishingRodItem usedRod = (ExtendedFishingRodItem) offHandItem;
 
             if (usedRod.canFishInLava()) {
-                return fluidState.getHeight(this.getWorld(), blockPos);
+                return fluidState.getHeight(this.getEntityWorld(), blockPos);
             }
         }
 
@@ -155,8 +155,8 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
             getPlayerOwner().getStackInHand(Hand.MAIN_HAND).damage(5, getPlayerOwner(), EquipmentSlot.MAINHAND);
         }
 
-        if (getWorld() instanceof ServerWorld) {
-            ((ServerWorld) getWorld()).spawnParticles(ParticleTypes.LAVA, getX(), getY(), getZ(), 5, 0, 1, 0, 0);
+        if (getEntityWorld() instanceof ServerWorld) {
+            ((ServerWorld) getEntityWorld()).spawnParticles(ParticleTypes.LAVA, getX(), getY(), getZ(), 5, 0, 1, 0, 0);
         }
 
         getPlayerOwner().playSound(SoundEvents.ENTITY_GENERIC_BURN, .5f, 1f);
@@ -170,12 +170,12 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/fluid/FluidState;isIn(Lnet/minecraft/registry/tag/TagKey;)Z", ordinal = 1)
     )
     private boolean fallOutsideLiquid(FluidState instance, TagKey<Fluid> tag, Operation<Boolean> original) {
-        return original.call(instance, tag) || (!this.getWorld().isClient && instance.isIn(FluidTags.LAVA));
+        return original.call(instance, tag) || (!this.getEntityWorld().isClient() && instance.isIn(FluidTags.LAVA));
     }
 
     @WrapOperation(method = "tickFishingLogic", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z"))
     private boolean replaceLava(BlockState instance, Block block, Operation<Boolean> original) {
-        return original.call(instance, block) || (!this.getWorld().isClient && instance.isOf(Blocks.LAVA));
+        return original.call(instance, block) || (!this.getEntityWorld().isClient() && instance.isOf(Blocks.LAVA));
     }
 
     @ModifyArg(method = "tickFishingLogic", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;spawnParticles(Lnet/minecraft/particle/ParticleEffect;DDDIDDDD)I"))

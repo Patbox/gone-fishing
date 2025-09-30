@@ -65,7 +65,7 @@ public class ExtendedFishingRodItem extends FishingRodItem implements PolymerIte
 
         if(user.fishHook != null) {
             // Retrieve fishing bobber and damage Fishing Rod
-            if(!world.isClient) {
+            if(!world.isClient()) {
                 int damage = user.fishHook.use(heldStack);
                 heldStack.damage(damage, user, hand == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
             }
@@ -75,14 +75,14 @@ public class ExtendedFishingRodItem extends FishingRodItem implements PolymerIte
             world.playSound(null, user.getX(), user.getY(), user.getZ(), cast.getSound(), SoundCategory.NEUTRAL, cast.getVolume(random), cast.getPitch(random));
 
             // Summon new fishing bobber
-            if(!world.isClient) {
+            if(!world.isClient()) {
                 boolean smeltBuff = false;
                 int bonusLure = 0;
                 int bonusLuck = 0;
                 int bonusExperience = 0;
 
                 // Check for night luck
-                if(nightLuck && user.getWorld().isNight()) {
+                if(nightLuck && user.getEntityWorld().isNight()) {
                     bonusLuck++;
                 }
 

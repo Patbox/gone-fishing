@@ -47,7 +47,7 @@ public record WeatherCondition(Optional<Boolean> raining, Optional<Boolean> thun
         @Nullable Vec3d pos = lootContext.get(LootContextParameters.ORIGIN);
 
         if(entity != null && pos != null) {
-            World world = entity.getWorld();
+            World world = entity.getEntityWorld();
 
             // If raining is required and the world is not raining, return false.
             if (raining.isPresent() && raining.get() && !world.isRaining()) {

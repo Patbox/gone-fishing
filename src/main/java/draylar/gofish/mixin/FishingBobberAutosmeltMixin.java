@@ -49,16 +49,16 @@ public abstract class FishingBobberAutosmeltMixin extends Entity implements Smel
             index = 9
     )
     private ItemEntity processOutput(ItemEntity itemEntity) {
-        if (this.getWorld() instanceof ServerWorld world) {
+        if (this.getEntityWorld() instanceof ServerWorld world) {
             if (gf_smelts) {
                 Optional<RecipeEntry<SmeltingRecipe>> cooked = world.getRecipeManager().getFirstMatch(
                         RecipeType.SMELTING,
                         new SingleStackRecipeInput(itemEntity.getStack()),
-                        getWorld()
+                        getEntityWorld()
                 );
 
                 cooked.ifPresent(smeltingRecipe -> itemEntity.setStack(smeltingRecipe.value().craft(
-                        new SingleStackRecipeInput(itemEntity.getStack()), getWorld().getRegistryManager())));
+                        new SingleStackRecipeInput(itemEntity.getStack()), getEntityWorld().getRegistryManager())));
             }
         }
 

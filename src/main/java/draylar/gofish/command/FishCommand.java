@@ -48,7 +48,7 @@ public class FishCommand {
         ServerWorld world = context.getSource().getWorld();
 
         var lootContext = new LootWorldContext.Builder(serverCommandSource.getWorld())
-                .add(LootContextParameters.ORIGIN, player.getPos())
+                .add(LootContextParameters.ORIGIN, player.getEntityPos())
                 .add(LootContextParameters.TOOL, player.getStackInHand(player.getActiveHand()))
                 .addOptional(LootContextParameters.THIS_ENTITY, serverCommandSource.getEntity())
                 .build(LootContextTypes.FISHING);

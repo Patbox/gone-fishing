@@ -42,7 +42,7 @@ public class GoFishLootHandler {
                             .quality(2)
                             .conditionally(
                                     EntityPropertiesLootCondition.builder(
-                                            LootContext.EntityTarget.THIS,
+                                            LootContext.EntityReference.THIS,
                                             EntityPredicate.Builder.create().typeSpecific(FishingHookPredicate.of(true))
                                     )
                             )

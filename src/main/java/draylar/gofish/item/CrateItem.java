@@ -56,9 +56,9 @@ public class CrateItem extends FactoryBlockItem {
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         // only open crate if user is sneaking
         if(user.isSneaking()) {
-            if(!world.isClient) {
+            if(!world.isClient()) {
                 // drop loot
-                getDrops((ServerWorld) world, loot, user.getPos()).forEach(stack -> {
+                getDrops((ServerWorld) world, loot, user.getEntityPos()).forEach(stack -> {
                     ItemScatterer.spawn(world, user.getX(), user.getY(), user.getZ(), stack);
                 });
             }
@@ -83,7 +83,7 @@ public class CrateItem extends FactoryBlockItem {
     private List<ItemStack> getDrops(ServerWorld world, RegistryKey<LootTable> identifier, Vec3d pos) {
         List<ItemStack> output = new ArrayList<>();
 
-        if (world != null && !world.isClient) {
+        if (world != null && !world.isClient()) {
             // set up loot objects
             LootTable supplier = Objects.requireNonNull(world.getServer()).getReloadableRegistries().getLootTable(identifier);
             LootWorldContext.Builder builder =
